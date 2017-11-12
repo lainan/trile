@@ -317,7 +317,6 @@ function startGame() {
 }
 
 function start() {
-    toggleFullScreen();
     var sheet = document.styleSheets[0];
     sheet.insertRule(".card-rotation { transition: \
                                        transform " + timeFlip + "ms; }", 0);
@@ -325,6 +324,10 @@ function start() {
                                        transition: left 1s ease, \
                                        transform " + timeTranslation + "ms ease; }", 0);
     createStartingElements();
+    var goFS = document.getElementById("title-text");
+    goFS.addEventListener("click", function() {
+        toggleFullScreen();
+    }, false);
     disableButton('btn-start', true, 1);
     disableButton('btn-start', false, timeTranslation);
     disableCards();
