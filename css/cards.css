@@ -1,0 +1,63 @@
+
+/* WRAPPER PARA LAS CARTAS */
+.card-translation {
+    position: absolute;
+    top: calc(50% - ((10vw * 1.534) / 2));
+    left: 0;
+    width: 10vw;
+    height: calc(10vw * 1.534);
+    cursor: pointer;
+    will-change: transform, left;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.card-rotation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 10rem rgb(0, 0, 0);
+    will-change: transform
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+/* CARA DE CARTA (COMÚN)*/
+.card-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+/* RAYAS Y SUCIEDAD DE LAS CARTAS*/
+.card-side::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/scratches.png) ;
+    background-size: cover;
+    opacity: 0.3;
+}
+
+/* REVERSO DE CARTA */
+.card-back {
+    transform: rotateY(180deg);
+    background-image: url(../img/cards/reverso.png);
+}
+
+/* ESTADO GIRADA PARA LAS CARTAS */
+.flipped {
+    transform: rotateY(180deg);
+}

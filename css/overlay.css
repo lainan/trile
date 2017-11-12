@@ -1,0 +1,114 @@
+/*************************/
+/* FONDOS PARA LAS ZONAS */
+#title::after, #options::after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/cardboard-dark.png);
+    background-size: 512px 512px;
+
+}
+#title::after {
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 1);
+    transform: rotateZ(-1deg);
+}
+#options::after {
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 1);
+    transform: rotateZ(1deg);
+}
+
+/**************************/
+/* ZONA SUPERIOR - TITULO */
+#title {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 20%;
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+
+#title-text {
+    font-family: 'Paper Cuts 2';
+    font-size: 10rem;
+    letter-spacing: 1rem;
+    color: rgb(255, 222, 0);
+    font-weight: bold;
+    text-shadow: 1px 1px black, 2px 2px black, 3px 3px black, 4px 4px black,
+                 5px 5px black, 6px 6px black, 7px 7px black, 8px 8px black;
+}
+
+
+/****************************/
+/* ZONA INFERIOR - OPCIONES */
+#options {
+    text-align: center;
+    color: white;
+    height: 20%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    flex-direction: column;
+}
+
+/* MARCADOR */
+#win-text {
+    font-family: 'Paper Cuts 2';
+    font-size: 4rem;
+    letter-spacing: 1rem;
+    text-shadow: 1px 1px black,
+                 2px 2px black,
+                 3px 3px black;
+}
+
+/* BOTÓN DE EMPEZAR */
+#btn-start {
+    font-family: monospace;
+    padding: 0.5em;
+    font-size: 2.4rem;
+    color: black;
+    font-weight: bold;
+    border: 0;
+    background: rgb(241, 196, 14);
+    border-bottom: 0.5rem solid rgb(190, 155, 14);
+    box-shadow: inset 0 -0.5rem rgb(190, 155, 14);
+    cursor: pointer;
+}
+
+#btn-start:active {
+    box-shadow: none;
+}
+
+#btn-start:disabled {
+    background: rgba(171, 171, 171, 0.79);
+    border-bottom: 0.5rem solid rgba(101, 101, 101, 0.78);
+    box-shadow: inset 0 -0.5rem rgba(101, 101, 101, 0.8);
+}
+
+/* Animación de pulso (botón)*/
+@keyframes pulse {
+    0%, 50%, 100% {
+        transform: scale3d(1, 1, 1);
+    }
+
+    25% {
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+}
+
+#btn-start:enabled {
+    animation-duration: 1000ms;
+    animation-name: pulse;
+    animation-iteration-count: infinite;
+}

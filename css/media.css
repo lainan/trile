@@ -1,0 +1,69 @@
+
+/* Smartphones (portrait and landscape) */
+@media only screen
+and (max-width: 768px) {
+    #title::after, #options::after {
+        content: none;
+    }
+
+    #left-hand, #right-hand {
+        display: none;
+    }
+
+    .small-screen-hide {
+        display: none;
+    }
+
+    #title {
+        height: auto;
+        padding: 0;
+        margin: 0;
+    }
+
+    #title-text {
+        font-size: 16rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    #win-text #win-counter {
+        font-size: 20rem;
+        position: fixed;
+        top: 0;
+        right: 1%;
+    }
+
+    #options {
+        color: white;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: block;
+    }
+
+    #btn-start {
+        font-size: 6rem;
+        margin-bottom: 1.5%;
+    }
+
+    #win-text {
+        font-size: 0;
+    }
+
+    .card-translation {
+        top: calc(50% - ((20vw * 1.534) / 2));
+        width: 20vw;
+        height: calc(20vw * 1.534);
+    }
+}
+
+/* iPads (portrait) */
+@media only screen
+and (max-aspect-ratio: 11/8) {
+
+    .hand-translation {
+        display: none;
+    }
+
+}

@@ -8,10 +8,11 @@ var winnerCard = "";
 
 var difficultyLevel = 0;
 var shufflesCount = 3;
-var timeTranslation = 0;
+var timeTranslation = 1000;
 var timeFlip = 1000;
 var initialPositions = [];
 var currentPositions = [];
+var oldTimeTranslation;
 
 var cardWidth = getCardWidth();
 
@@ -39,11 +40,22 @@ function createStartingElements() {
     // Opciones
     appendNewElement('container', 'div', {'id': 'options'});
     appendNewElement('options', 'div', {'id': 'win-text'});
-    appendNewElement('win-text', 'span', undefined, 'Has ganado ');
+    appendNewElement('win-text', 'span', {'class': 'small-screen-hide'}, 'Has ganado ');
     appendNewElement('win-text', 'span', {'id': 'win-counter'}, '0');
-    appendNewElement('win-text', 'span', undefined, ' veces');
+    appendNewElement('win-text', 'span', {'class': 'small-screen-hide'}, ' veces');
     appendNewElement('win-text', 'div', {'id': 'btn-wrapper'});
     appendNewElement('btn-wrapper', 'button', {'id': 'btn-start', 'onclick': 'startGame()'}, 'EMPEZAR');
+
+    // Manos
+    appendNewElement('container', 'div', {'id': 'left-hand', 'class': 'hand-translation'});
+    appendNewElement('left-hand', 'div', {'id': 'left-hand-rotation', 'class': 'hand-rotation'});
+    appendNewElement('left-hand-rotation', 'div', {'class': 'hand-shadow'});
+    appendNewElement('left-hand-rotation', 'div', {'class': 'hand-image'});
+
+    appendNewElement('container', 'div', {'id': 'right-hand', 'class': 'hand-translation'});
+    appendNewElement('right-hand', 'div', {'id': 'right-hand-rotation', 'class': 'hand-rotation'});
+    appendNewElement('right-hand-rotation', 'div', {'class': 'hand-shadow'});
+    appendNewElement('right-hand-rotation', 'div', {'class': 'hand-image'});
 }
 
 /* Añade una carta (sin imagen o posición), cada carta esta formada por un capa
@@ -124,6 +136,7 @@ function enableCards() {
 
 // Centra todas las cartas (con espacio entre ellas)
 function centerCards() {
+    cardWidth = getCardWidth();
     var windowWidth = window.innerWidth;
     for (var i = 0; i < cardCount; i++) {
         initialPositions[i] = (Math.floor(windowWidth / (cardCount + 1)) * (i + 1)) - (cardWidth / 2);
@@ -172,55 +185,16 @@ function startShuffle() {
     for (var i = 0; i < shufflesCount; i++) {
         setTimeout(shuffleCards, timeTranslation * i);
     }
+    setTimeout(animateHands, timeTranslation * shufflesCount);
     setTimeout(enableCards, timeTranslation * shufflesCount);
-}
 
-// Aumenta la dificultad según el número de veces que has ganado
-function increasetDifficulty() {
-    // Subimos el nivel de dificultad
-    if ((winCount % 1 ) == 0) {
-        difficultyLevel++;
-    }
-
-    var addNewCard =       (((difficultyLevel % 10) == 0) && ((cardWidth * cardCount) < window.innerWidth));
-    var increaseShuffles = ((difficultyLevel % 4) == 0);
-    var speedUpShuffle =   ((difficultyLevel % 1) == 0);
-
-
-    if (addNewCard) {
-        disableButton('btn-start', false, (timeFlip * 3) + timeTranslation);
-    } else {
-        disableButton('btn-start', false, timeFlip);
-    }
-
-    // Se aumenta el número de cartas
-    if (addNewCard) {
-        setTimeout(function() { flipCard(winnerCard); }, timeFlip);
-        setTimeout(addCardToGame, timeFlip);
-    }
-    // Se acelera el tiempo de barajado
-    if (speedUpShuffle) {
-        timeTranslation = Math.round(1000 - ((difficultyLevel - 1) * 100))
-        if (timeTranslation < (100 * cardCount)) { timeTranslation = (100 * cardCount); }
-        var sheet = document.styleSheets[0];
-        sheet.deleteRule(0); sheet.deleteRule(0);
-        sheet.insertRule(".card-rotation { transition: transform " + timeFlip + "ms; }", 0);
-        sheet.insertRule(".card-translation { \
-                            transition: left 1s ease, \
-                            transform " + timeTranslation + "ms ease; }", 0);
-    }
-    if (increaseShuffles) {
-        shufflesCount++;
-    }
-    //console.log('difficulty, card count, shuffles count, suffle time')
-    //console.log(difficultyLevel, cardCount, shufflesCount, timeTranslation)
 }
 
 // Activa o desactiva (disabled) el botón (buttonID) después del intervalo (time)
 function disableButton(buttonID, disabled, time) {
     var button = document.getElementById(buttonID);
     var cursor = disabled ? "not-allowed" : "pointer";
-    var text = disabled ? "JUGANDO" : "EMPEZAR";
+    var text = disabled ? "BARAJANDO" : "&nbsp;EMPEZAR&nbsp;";
     setTimeout(function() {
         button.disabled = disabled;
         button.style.cursor = cursor;
@@ -228,16 +202,11 @@ function disableButton(buttonID, disabled, time) {
     }, time);
 }
 
-// Empieza el barajeo y te permite elegir una carta
-function startGame() {
-    disableButton('btn-start', true, 1);
-    setTimeout(hideAllCards, 2);
-    setTimeout(startShuffle, 500);
-}
 
 /* Proceso de añadir una nueca carta al juego: añade una carta, reasigna las
 imagenes frontales a todas las cartas, las centra y finalment las muestra */
 function addCardToGame() {
+    var sheet = document.styleSheets[0];
     var newCardID = addCard();
     newCard = document.getElementById(newCardID);
     newCard.style.visibility = "hidden";
@@ -246,12 +215,10 @@ function addCardToGame() {
 
     // Se coge la primera carta y se alza en el centro
     cards[0].style.zIndex = '100';
-    cards[0].style.left = center + 'px';
-    cards[0].style.transform = 'translateZ(150px) translateX(0px)';
+    var translateXRegEx = /translateX\((\d+)px\)/;
+    var translateX = center - initialPositions[0];
+    cards[0].style.transform = 'translateZ(150px) translateX(' + translateX + 'px)';
 
-    for (var i = 1; i < cards.length; i++) {
-        cards[i].style.left
-    }
 
     // Colocamos el resto en el centro
     cards = document.getElementsByClassName('card-translation');
@@ -271,14 +238,96 @@ function addCardToGame() {
     // Se resignan las imagenes frontales y se muestran todas las cartas
     setTimeout(setCardImages, timeTranslation * 2);
     setTimeout(showAllCards, timeTranslation * 2);
+
+    timeTranslation = oldTimeTranslation;
+    sheet.deleteRule(0); sheet.deleteRule(0);
+    sheet.insertRule(".card-rotation { transition: transform " + timeFlip + "ms; }", 0);
+    sheet.insertRule(".card-translation { \
+                        transition: left 1s ease, \
+                        transform " + timeTranslation + "ms ease; }", 0);
+}
+
+// Aumenta la dificultad según el número de veces que has ganado
+function increasetDifficulty() {
+    // Subimos el nivel de dificultad
+    if ((winCount % 1 ) == 0) {
+        difficultyLevel++;
+    }
+
+    var addNewCard =       (((difficultyLevel) % 10) == 0) && (cardCount < 5);
+    var increaseShuffles = ((difficultyLevel % 3) == 0);
+    var speedUpShuffle =   ((difficultyLevel % 1) == 0);
+
+
+    if (addNewCard) {
+        disableButton('btn-start', false, (timeFlip * 3) + timeTranslation);
+    } else {
+        disableButton('btn-start', false, timeFlip);
+    }
+
+    // Aumenta el número de barajeos
+    // Se acelera el tiempo de barajado
+    if (speedUpShuffle) {
+        if (timeTranslation > 250) {
+            (timeTranslation) -= 50;
+        }
+        var sheet = document.styleSheets[0];
+        sheet.deleteRule(0); sheet.deleteRule(0);
+        sheet.insertRule(".card-rotation { transition: transform " + timeFlip + "ms; }", 0);
+        sheet.insertRule(".card-translation { \
+                            transition: left 1s ease, \
+                            transform " + timeTranslation + "ms ease; }", 0);
+    }
+    if (increaseShuffles) {
+        shufflesCount++;
+    }
+    // Se aumenta el número de cartas
+    if (addNewCard) {
+        timeTranslation = 1000;
+        var sheet = document.styleSheets[0];
+        sheet.deleteRule(0); sheet.deleteRule(0);
+        sheet.insertRule(".card-rotation { transition: transform " + timeFlip + "ms; }", 0);
+        sheet.insertRule(".card-translation { transition: left 1s ease, transform 1s ease; }", 0);
+        oldTimeTranslation = timeTranslation;
+        timeTranslation = 1000;
+        setTimeout(function() { flipCard(winnerCard); }, timeFlip);
+        setTimeout(addCardToGame, timeFlip);
+    }
+}
+
+function animateHands() {
+    var hands = document.getElementsByClassName('hand-translation');
+    for (var i = 0; i < hands.length; i++) {
+        if (hands[i].classList.contains('hand-animation')) {
+            hands[i].classList.remove('hand-animation');
+            hands[i].offsetHeight; /* trigger reflow */
+            hands[i].classList.add('hand-animation')
+        } else {
+            hands[i].classList.add('hand-animation');
+        }
+    }
+
+}
+
+// Empieza el barajeo y te permite elegir una carta
+function startGame() {
+    disableButton('btn-start', true, 1);
+    setTimeout(hideAllCards, 2);
+    setTimeout(startShuffle, 500);
 }
 
 function start() {
-    document.styleSheets[0].insertRule(".card-translation { }", 0);
-    document.styleSheets[0].insertRule(".card-rotation { }", 0);
+    var sheet = document.styleSheets[0];
+    sheet.insertRule(".card-rotation { transition: \
+                                       transform " + timeFlip + "ms; }", 0);
+    sheet.insertRule(".card-translation { \
+                                       transition: left 1s ease, \
+                                       transform " + timeTranslation + "ms ease; }", 0);
     createStartingElements();
-    increasetDifficulty();
+    disableButton('btn-start', true, 1);
+    disableButton('btn-start', false, timeTranslation);
     disableCards();
+    animateHands();
 }
 
 window.onresize = centerCards;
