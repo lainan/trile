@@ -44,17 +44,6 @@ function createStartingElements() {
     appendNewElement('win-text', 'span', undefined, ' veces');
     appendNewElement('win-text', 'div', {'id': 'btn-wrapper'});
     appendNewElement('btn-wrapper', 'button', {'id': 'btn-start', 'onclick': 'startGame()'}, 'EMPEZAR');
-
-    // Manos
-    appendNewElement('container', 'div', {'id': 'left-hand', 'class': 'hand-translation'});
-    appendNewElement('left-hand', 'div', {'id': 'left-hand-rotation', 'class': 'hand-rotation'});
-    appendNewElement('left-hand-rotation', 'div', {'class': 'hand-shadow'});
-    appendNewElement('left-hand-rotation', 'div', {'class': 'hand-image'});
-
-    appendNewElement('container', 'div', {'id': 'right-hand', 'class': 'hand-translation'});
-    appendNewElement('right-hand', 'div', {'id': 'right-hand-rotation', 'class': 'hand-rotation'});
-    appendNewElement('right-hand-rotation', 'div', {'class': 'hand-shadow'});
-    appendNewElement('right-hand-rotation', 'div', {'class': 'hand-image'});
 }
 
 /* Añade una carta (sin imagen o posición), cada carta esta formada por un capa
