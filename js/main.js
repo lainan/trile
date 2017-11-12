@@ -317,6 +317,7 @@ function startGame() {
 }
 
 function start() {
+    document.documentElement.requestFullscreen();
     var sheet = document.styleSheets[0];
     sheet.insertRule(".card-rotation { transition: \
                                        transform " + timeFlip + "ms; }", 0);
