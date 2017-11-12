@@ -1,0 +1,221 @@
+/*
+AUTOR: Adrián Expósito Tofano
+*/
+
+@font-face {
+    font-family: 'Paper Cuts 2';
+    src: url('../font/PaperCuts2.woff2') format('woff2'),
+         url('../font/PaperCuts2.woff') format('woff'),
+         url('../font/PaperCuts2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* CONTENEDOR PRINCIPAL */
+#container {
+    width: 100%;
+    height: 100%;
+}
+
+/* TITULO */
+#title {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+#title-text {
+    font-family: 'Paper Cuts 2';
+    font-size: 100px;
+    letter-spacing: 10px;
+    color: rgb(255, 222, 0);
+    font-weight: bold;
+    text-shadow: 1px 1px black, 2px 2px black, 3px 3px black, 4px 4px black,
+                 5px 5px black, 6px 6px black, 7px 7px black, 8px 8px black;
+}
+
+/* ZONA DE JUEGO */
+#game {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/cardboard.jpg);
+    background-size: 650px 492px;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    -ms-perspective: 1000px;
+    perspective: 1000px;
+}
+
+
+/* WRAPPER PARA LAS CARTAS */
+.card-translation {
+    position: absolute;
+    top: calc(50% - (319px / 2));
+    left: 0;
+    width: 208px;
+    height: 319px;
+    cursor: pointer;
+    will-change: transform, left;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.card-rotation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 100px rgba(0, 0, 0, 1);
+    will-change: transform
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+/* CARA DE CARTA (COMÚN)*/
+.card-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+/* RAYAS Y SUCIEDAD DE LAS CARTAS*/
+.card-side::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/scratches.png) ;
+    background-size: cover;
+    opacity: 0.3;
+}
+
+/* REVERSO DE CARTA */
+.card-back {
+    transform: rotateY(180deg);
+    background-image: url(../img/cards/reverso.png);
+}
+
+/* ESTADO GIRADA PARA LAS CARTAS */
+.flipped {
+    transform: rotateY(180deg);
+}
+
+
+/* MANO */
+.hand-wrapper {
+    position: absolute;
+    height: calc(800px * 1.1);
+    width: calc(265px * 1.1);
+    top: calc(50% - (300px * 1.1));
+}
+
+/* MANO IZQUIERDA */
+.left-hand {
+    left: -10px;
+}
+/* MANO DERECHA */
+.right-hand {
+    right: -10px;
+    transform: scaleX(-1);
+}
+
+.hand {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url(../img/hand_complete.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+}
+
+.hand-shadow {
+    position: absolute;
+    width: 60%;
+    height: 67%;
+    top: 2%;
+    left: 12%;
+    border-radius: 50%;
+    background-color: black;
+    box-shadow: 30px 0px 100px 30px rgba(0,0,0,0.75);
+}
+
+
+
+
+/* ZONA DE LAS OPCIONES */
+#options {
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 20%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-direction: column;
+}
+
+/* MARCADOR */
+#win-text {
+    display: inline-block;
+    font-family: 'Paper Cuts 2';
+    font-size: 40px;
+    letter-spacing: 10px;
+
+    text-shadow: 1px 1px black,
+                 2px 2px black,
+                 3px 3px black;
+}
+
+/* BOTÓN DE EMPEZAR */
+#btn-start {
+    height: 2.5em;
+    width: 10em;
+    font-size: 24px;
+    color: black;
+    background: #f1c40f;
+    font-weight: bold;
+    border: 0;
+    border-bottom: 3px solid #be9b0e;
+    box-shadow: inset 0 -3px #be9b0e;
+    cursor: pointer;
+}
+
+#btn-start:active {
+    box-shadow: none;
+}
+
+#btn-start:disabled {
+    background: #ababab;
+    border-bottom: 3px solid #656565;
+    box-shadow: inset 0 -3px #656565;
+}
