@@ -1,0 +1,73 @@
+/* MANOS */
+
+/* TAMAÑO DE LAS MANOS*/
+.hand-translation {
+    position: absolute;
+    width: 14vw;
+    height: calc(14vw * 3.019);
+    bottom: calc(((-14vw * 3.019) / 10));
+}
+
+.hand-rotation, .hand-image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+/* MANO IZQUIERDA */
+#left-hand {
+    left: 0.5%;
+}
+/* MANO DERECHA */
+#right-hand {
+    right: 0.5%;
+}
+#right-hand .hand-rotation {
+    transform: scaleX(-1);
+}
+
+/* Textura de la mano */
+.hand-image {
+    background-image: url(../img/hand_complete.png);
+    background-size: 100% 100%;
+}
+
+/* Sombra de la mano*/
+.hand-shadow {
+    position: absolute;
+    width: 60%;
+    height: 67%;
+    top: 2%;
+    left: 12%;
+    border-radius: 50%;
+    background-color: black;
+    box-shadow: 3rem 0 10rem 3rem rgba(0,0,0,0.75);
+}
+
+@keyframes bounce {
+    from, 20%, 53%, 80%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0,0,0);
+    }
+
+    40%, 43% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -3rem, 0);
+    }
+
+    70% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -1.5rem, 0);
+    }
+
+    90% {
+        transform: translate3d(0,-0.4rem,0);
+    }
+}
+
+.hand-animation {
+    animation-name: bounce;
+    animation-duration: 1s;
+    animation-delay: 200ms;
+    transform-origin: center bottom;
+}

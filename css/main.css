@@ -1,0 +1,49 @@
+/*
+AUTOR: Adrián Expósito Tofano
+*/
+
+@font-face {
+    font-family: 'Paper Cuts 2';
+    src: url('../font/PaperCuts2.woff2') format('woff2'),
+         url('../font/PaperCuts2.woff') format('woff'),
+         url('../font/PaperCuts2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    font-size: 0.5208vw; /* A 1920px ~= 10px = 1rem*/
+}
+
+/* CONTENEDOR PRINCIPAL */
+#container {
+    width: 100%;
+    height: 100%;
+}
+
+/* ZONA DE JUEGO */
+#game {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/cardboard-light.png);
+    background-size: 650px 493px;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    -ms-perspective: 1000px;
+    perspective: 1000px;
+}
